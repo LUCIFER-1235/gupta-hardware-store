@@ -1,24 +1,39 @@
 <?php
 session_start();
-require_once '../includes/config.php';
+require_once '../includes/db.php';
 
-if (isset($_SESSION['role'])) {
-    if ($_SESSION['role'] === 'admin' && isset($_SESSION['admin_id'])) {
-        header("Location: ../admin/dashboard.php");
-        exit();
-    } elseif ($_SESSION['role'] === 'user' && isset($_SESSION['user_id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    if ($user && password_verify($password, $user['password'])) {
+        // Set session
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['role'] = $user['role'];
+
+        // 🔄 Sync cart from DB
+        $_SESSION['cart'] = [];
+        $uid = $_SESSION['user_id'];
+        $result = $conn->query("SELECT product_id, quantity FROM user_cart WHERE user_id = $uid");
+        while ($row = $result->fetch_assoc()) {
+            $_SESSION['cart'][$row['product_id']] = $row['quantity'];
+        }
+
+        // Redirect to user dashboard
         header("Location: ../user/index.php");
-        exit();
+        exit;
     } else {
-        // Session is corrupt or role mismatch
-        session_unset();
-        session_destroy();
-        header("Location: ../auth/login.php?error=corrupt_session");
-        exit();
+        $error = "Invalid credentials";
     }
 }
-
 ?>
+
 
 
 

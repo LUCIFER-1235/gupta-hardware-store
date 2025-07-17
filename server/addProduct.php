@@ -1,35 +1,41 @@
 <?php
-include '../includes/db.php';
-include '../includes/csrf.php';
-
-if (!checkCSRF($_POST['csrf_token'])) {
-    die("❌ CSRF token mismatch.");
-}
-
 session_start();
+require_once '../includes/db.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $desc = mysqli_real_escape_string($conn, $_POST['description']);
-    $price = floatval($_POST['price']);
-    $cat = mysqli_real_escape_string($conn, $_POST['category']);
-    $trend = isset($_POST['trending']) ? 1 : 0;
-
-    $img = $_FILES['image']['name'];
-    $tmp = $_FILES['image']['tmp_name'];
-    $path = "../assets/images/" . basename($img);
-
-    if (move_uploaded_file($tmp, $path)) {
-        $sql = "INSERT INTO products (name, description, price, image, category, trending)
-                VALUES ('$name', '$desc', $price, '$img', '$cat', $trend)";
-        if ($conn->query($sql)) {
-            $_SESSION['msg'] = "✅ Product added.";
-        } else {
-            $_SESSION['msg'] = "❌ DB Error: " . $conn->error;
-        }
-    } else {
-        $_SESSION['msg'] = "❌ Image upload failed.";
-    }
-    header("Location: ../admin/add-product.php");
-    exit();
+if (!isset($_SESSION['user_id'])) {
+    echo "unauthenticated";
+    exit;
 }
+
+$user_id = $_SESSION['user_id'];
+$product_id = $_POST['product_id'] ?? null;
+$quantity = $_POST['quantity'] ?? 1;
+
+if (!$product_id) {
+    echo "invalid";
+    exit;
+}
+
+// Check if item already in cart
+$stmt = $conn->prepare("SELECT id, quantity FROM user_cart WHERE user_id = ? AND product_id = ?");
+$stmt->bind_param("ii", $user_id, $product_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    // Update quantity
+    $row = $result->fetch_assoc();
+    $newQty = $row['quantity'] + $quantity;
+
+    $updateStmt = $conn->prepare("UPDATE user_cart SET quantity = ? WHERE id = ?");
+    $updateStmt->bind_param("ii", $newQty, $row['id']);
+    $updateStmt->execute();
+} else {
+    // Insert new item
+    $insertStmt = $conn->prepare("INSERT INTO user_cart (user_id, product_id, quantity) VALUES (?, ?, ?)");
+    $insertStmt->bind_param("iii", $user_id, $product_id, $quantity);
+    $insertStmt->execute();
+}
+
+echo "success";
+?>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['user_id'])) {
-    header("Location: index.php");
+    header("Location: ../user/index.php");
     exit();
 }
 require_once '../includes/config.php';

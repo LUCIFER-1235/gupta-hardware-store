@@ -1,0 +1,65 @@
+Folder PATH listing for volume Windows-SSD
+Volume serial number is E6FF-24C7
+C:.
+¦   .php-preview-router.php
+¦   structure.txt
+¦   
++---admin
+¦       add-product.php
+¦       bulk-actions.php
+¦       dashboard.php
+¦       delete-product.php
+¦       edit-product.php
+¦       update-product.php
+¦       userActions.php
+¦       view-orders.php
+¦       view-products.php
+¦       view-users.php
+¦       
++---assets
+¦   +---css
+¦   ¦       style.css
+¦   ¦       
+¦   +---images
+¦   ¦       6877a8fd99232_AutoHustle_AI_logo.jpg
+¦   ¦       6878bb5252295_AutoHustle_AI_logo.jpg
+¦   ¦       AutoHustle AI logo.jpg
+¦   ¦       GSH Logo.jpg
+¦   ¦       
+¦   +---js
+¦           main.js
+¦           
++---auth
+¦       login.php
+¦       logout.php
+¦       
++---includes
+¦       auth.php
+¦       config.php
+¦       csrf.php
+¦       db.php
+¦       
++---server
+¦       addProduct.php
+¦       addToCart.php
+¦       authHandler.php
+¦       commonLoginHandler.php
+¦       deleteProductHandler.php
+¦       delete_from_cart.php
+¦       editProductHandler.php
+¦       fetchProducts.php
+¦       getOrderHistory.php
+¦       logout.php
+¦       placeOrder.php
+¦       registerHandler.php
+¦       update-order-status.php
+¦       updateStock.php
+¦       update_cart.php
+¦       
++---user
+        cart.php
+        index.php
+        orders.php
+        product.php
+        register.php
+        

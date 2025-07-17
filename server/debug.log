@@ -1,0 +1,42 @@
+Array
+(
+    [product_id] => <br />
+<b>Warning</b>:  Undefined variable $product in <b>C:\xampp\htdocs\gupta-hardware-store\user\index.php</b> on line <b>158</b><br />
+<br />
+<b>Warning</b>:  Trying to access array offset on value of type null in <b>C:\xampp\htdocs\gupta-hardware-store\user\index.php</b> on line <b>158</b><br />
+
+    [quantity] => 1
+)
+Array
+(
+    [product_id] => <br />
+<b>Warning</b>:  Undefined variable $product in <b>C:\xampp\htdocs\gupta-hardware-store\user\index.php</b> on line <b>158</b><br />
+<br />
+<b>Warning</b>:  Trying to access array offset on value of type null in <b>C:\xampp\htdocs\gupta-hardware-store\user\index.php</b> on line <b>158</b><br />
+
+    [quantity] => 1
+)
+Array
+(
+    [product_id] => <br />
+<b>Warning</b>:  Undefined variable $product in <b>C:\xampp\htdocs\gupta-hardware-store\user\index.php</b> on line <b>158</b><br />
+<br />
+<b>Warning</b>:  Trying to access array offset on value of type null in <b>C:\xampp\htdocs\gupta-hardware-store\user\index.php</b> on line <b>158</b><br />
+
+    [quantity] => 1
+)
+Array
+(
+    [product_id] => 6
+    [quantity] => 1
+)
+Array
+(
+    [product_id] => 6
+    [quantity] => 1
+)
+Array
+(
+    [product_id] => 6
+    [quantity] => 1
+)

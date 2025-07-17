@@ -1,16 +1,19 @@
 <?php
 session_start();
+require_once '../includes/db.php';
 
-// Clear all session variables
-$_SESSION = [];
+// Optional: Sync current cart to DB before logout
+if (isset($_SESSION['user_id'], $_SESSION['cart'])) {
+    $userId = $_SESSION['user_id'];
+    $conn->query("DELETE FROM user_cart WHERE user_id = $userId");
 
-// Destroy the session
-session_destroy();
-
-// Redirect based on user or admin
-if (isset($_GET['admin'])) {
-    header("Location: ../auth/login.php");
-} else {
-    header("Location: ../auth/login.php");
+    foreach ($_SESSION['cart'] as $pid => $qty) {
+        $conn->query("INSERT INTO user_cart (user_id, product_id, quantity) VALUES ($userId, $pid, $qty)");
+    }
 }
+
+// Clear session
+session_unset();
+session_destroy();
+header('Location: login.php');
 exit();
